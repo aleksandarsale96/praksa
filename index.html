@@ -1,0 +1,273 @@
+1.Da li postoje tipovi podataka u JS i da li oni moraju biti unapred poznati?
+
+-Da, number, string, boolean, Object, Array, Funcion, Null, Undefined, Bigint itd
+
+
+
+
+
+2.Koja je razlika između let i var? Obrazložiti primerom.
+
+-Var => vidljive unutar funkcija u kojima su deklarisane. Ako se deklarišu unutar bloka
+(npr. if ili for petlje), biće vidljive i van tog bloka.
+
+-Let => vidljive samo unutar bloka u kojem su deklarisane
+
+function example() {
+if (true) {
+var x = 5; // x je vidljiv van if bloka
+let y = 10; // y je vidljiv samo unutar if bloka
+}
+
+console.log(x); // 5 (var je funkcionalno scoped)
+console.log(y); // Greška - y nije definisan van if bloka (let je blokovno scoped)
+}
+
+example();
+x ce biti vidljiv a y ce davati gresku
+
+
+
+
+
+3. Šta je DOM?
+
+-Document Object Model => struktura i reprezentaciju HTML,XML ili XHTML
+dokumenta u obliku objekata.
+Svaki element (tag) u HTML dokumentu predstavlja objekat u DOM-u.
+
+
+
+
+
+4. Šta je undefined? Koja je razlika između null i undefined?
+
+-undefined je ne definisana varijabla a null je varijabla koja nema vrednost
+
+
+
+
+
+5.Koji su načini da se napravi objekat u JS?
+
+-Literalni objekat:
+const osoba = {
+ime: 'Ana',
+prezime: 'Petrović',
+godine: 30
+};
+
+-Koriscenje konstruktora:
+function Osoba(ime, prezime, godine) {
+this.ime = ime;
+this.prezime = prezime;
+this.godine = godine;
+}
+
+const osoba = new Osoba('Ana', 'Petrović', 30);
+
+-Object.create:
+const osobaPrototip = {
+pozdrav: function() {
+console.log(`Zdravo, ja sam ${this.ime} ${this.prezime}`);
+}
+};
+
+const osoba = Object.create(osobaPrototip);
+osoba.ime = 'Ana';
+osoba.prezime = 'Petrović';
+osoba.godine = 30;
+
+-Koriscenje klase:
+class Osoba {
+constructor(ime, prezime, godine) {
+this.ime = ime;
+this.prezime = prezime;
+this.godine = godine;
+}
+}
+
+const osoba = new Osoba('Ana', 'Petrović', 30);
+
+
+
+
+
+6.Koji su sve načini za definiciju klasa bez ES6 sintakse?
+
+-Funkcija konstruktora:
+function Osoba(ime, prezime, godine) {
+this.ime = ime;
+this.prezime = prezime;
+this.godine = godine;
+}
+
+Osoba.prototype.pozdrav = function() {
+console.log(`Zdravo, ja sam ${this.ime} ${this.prezime}`);
+};
+
+const osoba = new Osoba('Ana', 'Petrović', 30);
+osoba.pozdrav();
+
+
+-Prototipalno nasleđivanje:
+function Student(ime, prezime, godine, fakultet) {
+Osoba.call(this, ime, prezime, godine);
+this.fakultet = fakultet;
+}
+
+Student.prototype = Object.create(Osoba.prototype);
+Student.prototype.constructor = Student;
+
+const student = new Student('Marko', 'Novaković', 20, 'ETF');
+student.pozdrav();
+
+
+-Objekti sa funkcionalnostima:
+const Osoba = {
+kreiraj: function(ime, prezime, godine) {
+const osoba = Object.create(this);
+osoba.ime = ime;
+osoba.prezime = prezime;
+osoba.godine = godine;
+return osoba;
+},
+pozdrav: function() {
+console.log(`Zdravo, ja sam ${this.ime} ${this.prezime}`);
+}
+};
+
+const osoba = Osoba.kreiraj('Ana', 'Petrović', 30);
+osoba.pozdrav();
+
+
+
+
+
+7.Koja je razlika između === i == operatora?
+Kada je === mora biti isti i type
+
+
+
+
+
+8.Šta je window objekat?
+
+
+
+
+
+9.Šta je callback funkcija?
+async await
+prosleđuje kao argument drugoj funkciji i poziva se nakon završetka izvršavanja te funkcije.
+U osnovi, callback funkcija je način da se omogući asinhrono izvršavanje koda,
+posebno u situacijama gde ne želimo da čekamo da se određena operacija završi
+pre nego što nastavimo sa izvršavanjem drugog dela koda.
+
+
+
+
+
+10. Koja je razlika između callback funkcije i Promisa?
+
+
+
+
+
+
+11. Šta je NaN tip u JS? Kada se on koristi?
+Uvek je false i koristi se za predstavljanje situacija kada numerička vrednost nije validna,
+odnosno kada operacija ne može da proizvede brojčani rezultat.
+
+
+
+
+
+12.Čemu služe izuzeci? Kako se stvara i koristi novi izuzetak? Navesti primer korišćenja.
+
+Izuzeci omogućavaju programerima da kontrolišu kako se program ponaša kada se javi
+nepredviđena situacija, kao što je greška prilikom otvaranja fajla,
+povezivanja sa serverom ili rad sa neispravnim podacima.
+Da bismo kreirali izuzetak, koristimo ključnu reč throw zajedno sa objektom
+koji predstavlja izuzetak.
+
+function podeli(a, b) {
+if (b === 0) {
+throw new Error("Deljenje nulom nije dozvoljeno.");
+}
+return a / b;
+}
+
+try {
+const rezultat = podeli(10, 0);
+console.log("Rezultat:", rezultat);
+} catch (error) {
+console.error("Greška:", error.message);
+}
+
+
+
+
+
+13. Kako se može napraviti novi DOM element uz pomoć JS?
+document.createElement()
+
+
+
+
+
+14.Kako se sprovodi enkapsulacija (sakrivanje atributa) objekata u JS?
+
+
+
+
+
+15. Da li je moguće da program napisan u JS radi više stvari istovremeno? Ako da, kako?
+
+Moguce je => async await sintakse kroz:
+-Callback funkcije
+-Promise
+-Node.js
+
+
+
+
+
+16. Koja se svrha setTimeout i setInterval? Koji su argumenti neophodni?
+
+setTimeout funkcija se koristi za odloženo izvršavanje koda nakon određenog vremena.
+setTimeout(function() {
+console.log("Ovo će se prikazati nakon 2000ms (2 sekunde).");
+}, 2000);
+
+setInterval funkcija se koristi za ponavljanje izvršavanja istog koda u
+određenim vremenskim intervalima.
+let brojac = 0;
+
+const intervalId = setInterval(function() {
+console.log(`Izvršavanje broj ${brojac}`);
+brojac++;
+
+if (brojac === 5) {
+clearInterval(intervalId); // Zaustavi interval nakon 5 iteracija
+}
+}, 1000);
+
+U oba slučaja, callback funkcija će se izvršiti asinhrono nakon isteka vremenskog intervala.
+setInterval će nastaviti izvršavanje callback funkcije periodično sve dok se ne zaustavi
+korišćenjem clearInterval funkcije.
+Ove funkcije omogućavaju precizno upravljanje kašnjenjem i intervalima izvršavanja,
+što je korisno za mnoge scenarije u programiranju.
+
+
+
+
+
+17.Kako se može otkazati već započeti setTimeout?
+clearTimeout()
+const tajmerId = setTimeout(function() {
+console.log("Ovo će se prikazati za 2000ms (2 sekunde).");
+}, 2000);
+
+// Otkazivanje zakazanog izvršavanja
+clearTimeout(tajmerId);
